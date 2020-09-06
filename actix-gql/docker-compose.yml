@@ -20,7 +20,7 @@ services:
   actix-gql:
     container_name: actix-gql
     build: .
-    image: dv4all/actix-gql-todo-api:0.0.4
+    image: dv4all/actix-gql-todo-api:0.0.5
     environment:
       SERVER_HOST: 0.0.0.0
       SERVER_PORT: 8080

@@ -17,10 +17,10 @@ services:
     networks:
       - net
 
-  actix-gql:
+  actix-dp:
     container_name: actix-dp
     build: .
-    image: dv4all/actix-dp-todo-api:0.0.1
+    image: dv4all/actix-dp-todo-api:0.0.2
     environment:
       SERVER_HOST: 0.0.0.0
       SERVER_PORT: 8080

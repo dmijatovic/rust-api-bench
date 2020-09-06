@@ -3,19 +3,32 @@ const utils = require('./utils')
 const todos = require("./todos")
 
 let abort=false
+let noId={
+  list:0,
+  item:0
+}
 
 function saveResults(err, result){
   if (abort===true) {
     console.log("Load test cancelled...")
     return
   }
-  utils.saveToLowdb(err,result)
+  utils.saveToLowdb(err,{
+    ...result,
+    IdNotRetuned:{
+      ...noId
+    }
+  })
+  console.log("IdNotRetuned: ", (noId.list + noId.item))
 }
 
 const loadTest = autocannon({
   ...utils.settings,
-  title:"actix-dp-todo",
+  title:"actix-v3-dp-todo",
   requests:[{
+      method:'GET',
+      path:'/',
+    },{
       method:'GET',
       path:'/todolist',
     },{
@@ -31,6 +44,8 @@ const loadTest = autocannon({
           const resp = JSON.parse(body)
           if (resp && resp.length===1){
             context['list_id'] = resp[0]['id']
+          } else {
+            noId.list+=1
           }
         }
       }
@@ -64,6 +79,8 @@ const loadTest = autocannon({
           const resp = JSON.parse(body)
           if (resp && resp.length===1){
             context['todo_id'] = resp[0]['id']
+          }else{
+            noId.item+=1
           }
         }
       }
@@ -71,7 +88,7 @@ const loadTest = autocannon({
       method: 'GET',
       setupRequest:(req, context)=>({
         ...req,
-        path:`/todos/${context['list_id']}/items`,
+        path:`/todolist/${context['list_id']}/items`,
         headers:{
           'content-type':'application/json',
           'autohorization':'Bearer FAKE_JWT_KEY'

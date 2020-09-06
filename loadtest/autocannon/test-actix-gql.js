@@ -4,12 +4,23 @@ const graphql = require("./graphql")
 
 let abort=false
 
+let noId={
+  list:0,
+  item:0
+}
+
 function saveResults(err, result){
   if (abort===true) {
     console.log("Load test cancelled...")
     return
   }
-  utils.saveToLowdb(err,result)
+  utils.saveToLowdb(err,{
+    ...result,
+    IdNotRetuned:{
+      ...noId
+    }
+  })
+  console.log("IdNotRetuned: ", (noId.list + noId.item))
 }
 
 const loadTest = autocannon({
@@ -17,6 +28,9 @@ const loadTest = autocannon({
   title:"actix-gql-todo",
   url:"http://localhost:8080",
   requests:[{
+      method:'GET',
+      path:'/',
+    },{
       method:'POST',
       path:'/v1/graphql',
       headers:{
@@ -38,7 +52,7 @@ const loadTest = autocannon({
           if (resp['data'] && resp['data']['createTodoList']){
             context['list_id'] = resp['data']['createTodoList']['id']
           }else{
-            console.log("failed to extract list_id")
+            noId.list+=1
           }
         }
       }
@@ -77,7 +91,7 @@ const loadTest = autocannon({
           if (resp['data'] && resp['data']['createTodoItem']){
             context['todo_id'] = resp['data']['createTodoItem']['id']
           } else {
-            console.log("failed to extract todo_id")
+            noId.item+=1
           }
         }
       }

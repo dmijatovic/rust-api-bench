@@ -55,7 +55,7 @@ stop_api
 # ---------------------
 # ACTIX v2 Deadpool test
 # start actix api
-cd actix-v2-dp
+cd ../actix-v2-dp
 # start api with docker compose
 start_api
 # run load test

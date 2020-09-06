@@ -16,7 +16,7 @@ impl From<&Row> for TodoList {
 
 pub async fn get_todos(pool: &Pool) -> Result<Vec<TodoList>, PoolError> {
   // create raw sql statement
-  let raw_sql = "SELECT * FROM todo_list;";
+  let raw_sql = "SELECT * FROM todo_list LIMIT 50;";
   // execute query or propagate error
   let rows = todo_query(pool, raw_sql, &[]).await?;
   // return rows

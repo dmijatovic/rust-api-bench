@@ -3,23 +3,37 @@ const utils = require('./utils')
 
 let abort=false
 
+let noId={
+  list:0,
+  item:0
+}
+
 function saveResults(err, result){
   if (abort===true) {
     console.log("Load test cancelled...")
     return
   }
-  utils.saveToLowdb(err,result)
+  utils.saveToLowdb(err,{
+    ...result,
+    IdNotRetuned:{
+      ...noId
+    }
+  })
+  console.log("IdNotRetuned: ", (noId.list + noId.item))
 }
 
 const loadTest = autocannon({
   ...utils.settings,
-  title:"actix-v2-dp",
+  title:"actix-v2-dp-todo",
   requests:[{
       method:'GET',
       path:'/',
     },{
+      method:'GET',
+      path:'/todolist',
+    },{
       method:'POST',
-      path:'/todos',
+      path:'/todolist',
       headers:{
         'content-type':'application/json',
         'autohorization':'Bearer FAKE_JWT_KEY'
@@ -30,15 +44,19 @@ const loadTest = autocannon({
       onResponse:(status, body, context)=>{
         if (status === 200) {
           const resp = JSON.parse(body)
-          context['list_id'] = resp['id']
+          if (resp['id']){
+            context['list_id'] = resp['id']
+          }else{
+            noId.list+=1
+          }
         }
       }
     },{
       method:'PUT',
-      path:'/todos',
+      path:'/todolist',
       setupRequest:(req, context)=>({
         ...req,
-        path:`/todos`,
+        path:`/todolist`,
         headers:{
           'content-type':'application/json',
           'autohorization':'Bearer FAKE_JWT_KEY'
@@ -50,14 +68,15 @@ const loadTest = autocannon({
       })
     },{
       method: 'POST',
+      path: "/todo",
       setupRequest:(req, context)=>({
         ...req,
-        path:`/todos/${context['list_id']}/items`,
         headers:{
           'content-type':'application/json',
           'autohorization':'Bearer FAKE_JWT_KEY'
         },
         body:JSON.stringify({
+          "list_id": context['list_id'],
           "title":"Todo item",
           "checked": false
         })
@@ -65,14 +84,18 @@ const loadTest = autocannon({
       onResponse:(status, body, context)=>{
         if (status === 200) {
           const resp = JSON.parse(body)
-          context['todo_id'] = resp['id']
+          if (resp['id']){
+            context['todo_id'] = resp['id']
+          }else{
+            noId.item+=1
+          }
         }
       }
     },{
       method: 'GET',
       setupRequest:(req, context)=>({
         ...req,
-        path:`/todos/${context['list_id']}/items`,
+        path:`/todolist/${context['list_id']}/items`,
         headers:{
           'content-type':'application/json',
           'autohorization':'Bearer FAKE_JWT_KEY'
@@ -87,7 +110,7 @@ const loadTest = autocannon({
         }
         return {
           ...req,
-          path:`/todo/item/${id}`,
+          path:`/todo/${id}`,
           headers:{
             'content-type':'application/json',
             'autohorization':'Bearer FAKE_JWT_KEY'
