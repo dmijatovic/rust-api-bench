@@ -24,7 +24,7 @@ function saveResults(err, result){
 
 const loadTest = autocannon({
   ...utils.settings,
-  title:"actix-v3-dp-todo",
+  title:"actix-v3-dp",
   requests:[{
       method:'GET',
       path:'/',

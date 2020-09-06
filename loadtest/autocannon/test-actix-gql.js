@@ -25,7 +25,7 @@ function saveResults(err, result){
 
 const loadTest = autocannon({
   ...utils.settings,
-  title:"actix-gql-todo",
+  title:"actix-gql",
   url:"http://localhost:8080",
   requests:[{
       method:'GET',
