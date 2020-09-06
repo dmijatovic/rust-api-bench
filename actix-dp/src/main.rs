@@ -53,7 +53,7 @@ async fn main() -> std::io::Result<()> {
     //start http server
     HttpServer::new(move || {
         App::new()
-            .wrap(Logger::default())
+            .wrap(Logger::new("%r - %s [%b bytes %D ms] %{User-Agent}i"))
             .data(pool.clone())
             .configure(handler::register)
             .default_service(web::to(handler::page404))

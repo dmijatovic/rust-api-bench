@@ -8,17 +8,13 @@ use super::response;
 pub async fn get_todo_items(pool: web::Data<Pool>, lid: web::Path<i32>) -> HttpResponse {
   match todo_item::get_todo_items(&pool, *lid).await {
     //if request is ok return json data
-    Ok(res) => HttpResponse::Ok()
-      .content_type("application/json")
-      .body(serde_json::to_string(&res).unwrap()),
+    Ok(res) => HttpResponse::Ok().json(res),
     //if error create server serror json response
     Err(e) => {
       // error macro will report module::fn automatically
       error!("{:?}", e);
       let res = response::server_error(format!("{:?}", e));
-      HttpResponse::InternalServerError()
-        .content_type("application/json")
-        .body(serde_json::to_string(&res).unwrap())
+      HttpResponse::InternalServerError().json(res)
     }
   }
 }
@@ -27,17 +23,13 @@ pub async fn get_todo_items(pool: web::Data<Pool>, lid: web::Path<i32>) -> HttpR
 pub async fn get_todo_item(pool: web::Data<Pool>, id: web::Path<i32>) -> HttpResponse {
   match todo_item::get_todo_item(&pool, *id).await {
     //if request is ok return json data
-    Ok(res) => HttpResponse::Ok()
-      .content_type("application/json")
-      .body(serde_json::to_string(&res).unwrap()),
+    Ok(res) => HttpResponse::Ok().json(res),
     //if error create server serror json response
     Err(e) => {
       // error macro will report module::fn automatically
       error!("{:?}", e);
       let res = response::server_error(format!("{:?}", e));
-      HttpResponse::InternalServerError()
-        .content_type("application/json")
-        .body(serde_json::to_string(&res).unwrap())
+      HttpResponse::InternalServerError().json(res)
     }
   }
 }
@@ -50,17 +42,13 @@ pub async fn add_todo_item(
   // pass request to db
   match todo_item::add_todo_item(&pool, &new_item).await {
     //if request is ok return json data
-    Ok(res) => HttpResponse::Ok()
-      .content_type("application/json")
-      .body(serde_json::to_string(&res).unwrap()),
+    Ok(res) => HttpResponse::Ok().json(res),
     //if error create server serror json response
     Err(e) => {
       // error macro will report module::fn automatically
       error!("{:?}", e);
       let res = response::server_error(format!("{:?}", e));
-      HttpResponse::InternalServerError()
-        .content_type("application/json")
-        .body(serde_json::to_string(&res).unwrap())
+      HttpResponse::InternalServerError().json(res)
     }
   }
 }
@@ -70,17 +58,13 @@ pub async fn update_todo_item(pool: web::Data<Pool>, todo: web::Json<TodoItem>) 
   // pass request to db
   match todo_item::update_todo_item(&pool, &todo).await {
     //if request is ok return json data
-    Ok(res) => HttpResponse::Ok()
-      .content_type("application/json")
-      .body(serde_json::to_string(&res).unwrap()),
+    Ok(res) => HttpResponse::Ok().json(res),
     //if error create server serror json response
     Err(e) => {
       // error macro will report module::fn automatically
       error!("{:?}", e);
       let res = response::server_error(format!("{:?}", e));
-      HttpResponse::InternalServerError()
-        .content_type("application/json")
-        .body(serde_json::to_string(&res).unwrap())
+      HttpResponse::InternalServerError().json(res)
     }
   }
 }
@@ -90,17 +74,13 @@ pub async fn delete_todo_item(pool: web::Data<Pool>, id: web::Path<i32>) -> Http
   // pass request to db
   match todo_item::delete_todo_item(&pool, *id).await {
     //if request is ok return json data
-    Ok(res) => HttpResponse::Ok()
-      .content_type("application/json")
-      .body(serde_json::to_string(&res).unwrap()),
+    Ok(res) => HttpResponse::Ok().json(res),
     //if error create server error json response
     Err(e) => {
       // error macro will report module::fn automatically
       error!("{:?}", e);
       let res = response::server_error(format!("{:?}", e));
-      HttpResponse::InternalServerError()
-        .content_type("application/json")
-        .body(serde_json::to_string(&res).unwrap())
+      HttpResponse::InternalServerError().json(res)
     }
   }
 }

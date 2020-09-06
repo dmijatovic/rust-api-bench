@@ -1,9 +1,12 @@
 use deadpool_postgres::{Pool, PoolError};
 use serde::{Deserialize, Serialize};
-use tokio_postgres::row::Row;
+use tokio_pg_mapper::FromTokioPostgresRow;
+use tokio_pg_mapper_derive::PostgresMapper;
+// use tokio_postgres::row::Row;
 use tokio_postgres::types::ToSql;
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, PostgresMapper, Debug)]
+#[pg_mapper(table = "todo_item")]
 pub struct TodoItem {
   pub id: i32,
   pub list_id: i32,
@@ -19,16 +22,16 @@ pub struct NewTodoItem {
 }
 
 // map return from tokio:postreges into stuct
-impl From<&Row> for TodoItem {
-  fn from(row: &Row) -> Self {
-    Self {
-      id: row.get("id"),
-      list_id: row.get("list_id"),
-      title: row.get("title"),
-      checked: row.get("checked"),
-    }
-  }
-}
+// impl From<&Row> for TodoItem {
+//   fn from(row: &Row) -> Self {
+//     Self {
+//       id: row.get("id"),
+//       list_id: row.get("list_id"),
+//       title: row.get("title"),
+//       checked: row.get("checked"),
+//     }
+//   }
+// }
 
 pub async fn get_todo_items(pool: &Pool, list_id: i32) -> Result<Vec<TodoItem>, PoolError> {
   // create raw sql statement to execute
@@ -104,7 +107,7 @@ async fn todo_item_query(
     .query(&sql, args)
     .await?
     .iter()
-    .map(|row: &Row| TodoItem::from(row))
+    .map(|row| TodoItem::from_row_ref(row).unwrap())
     .collect::<Vec<TodoItem>>();
 
   Ok(rows)

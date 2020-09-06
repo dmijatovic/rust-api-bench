@@ -1,9 +1,11 @@
 use deadpool_postgres::{Pool, PoolError};
 use serde::{Deserialize, Serialize};
-use tokio_postgres::row::Row;
+use tokio_pg_mapper::FromTokioPostgresRow;
+use tokio_pg_mapper_derive::PostgresMapper;
 use tokio_postgres::types::ToSql;
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, PostgresMapper, Debug)]
+#[pg_mapper(table = "todo_list")]
 pub struct TodoList {
   pub id: i32,
   pub title: String,
@@ -21,14 +23,14 @@ pub struct UpdateTodoList {
 }
 
 // map return from tokio:postreges into stuct
-impl From<&Row> for TodoList {
-  fn from(row: &Row) -> Self {
-    Self {
-      id: row.get("id"),
-      title: row.get("title"),
-    }
-  }
-}
+// impl From<&Row> for TodoList {
+//   fn from(row: &Row) -> Self {
+//     Self {
+//       id: row.get("id"),
+//       title: row.get("title"),
+//     }
+//   }
+// }
 
 pub async fn get_todo_lists(pool: &Pool) -> Result<Vec<TodoList>, PoolError> {
   // create raw sql statement
@@ -100,7 +102,8 @@ async fn todo_query(
     .query(&sql, args)
     .await?
     .iter()
-    .map(|row: &Row| TodoList::from(row))
+    //this conversion might be important for performance
+    .map(|row| TodoList::from_row_ref(row).unwrap())
     .collect::<Vec<TodoList>>();
 
   Ok(rows)

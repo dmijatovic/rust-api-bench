@@ -20,7 +20,7 @@ services:
   actix-dp:
     container_name: actix-dp
     build: .
-    image: dv4all/actix-dp-todo-api:0.0.2
+    image: dv4all/actix-dp-todo-api:0.0.4
     environment:
       SERVER_HOST: 0.0.0.0
       SERVER_PORT: 8080
