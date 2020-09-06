@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/index.css">
+  <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
+  <title>Actix todo api with GraphQL </title>
+</head>
+<body>
+<article>
+  <h1>Actix todo api with GraphQL</h1>
+  <p>
+    This api is testbed for combining actix-web and juniper GraphQL library.
+    I have tested performance of Hasura using autocannon load test. It showed
+    fair performance but was at the bottom compared to other api's.
+  </p>
+  <p>
+    I was qurious if GraphQL performance can be improved with Rust because Hasura
+    is developed in Haskell. Hasura uses Postgres database too just as this testbed
+    solution.
+  </p>
+  <p>
+    During development I discovered that current juniper version does not support
+    async/await. Therefore I used tokio to spawn new threads and handle async/await
+    methods used with deadpool and tokio-postgres crate.
+  </p>
+  <h3>GraphiQL</h3>
+  <p>You can use <a href="/graphql">graphical interface</a> to play with todo api.</p>
+</article>
+</body>
+</html>

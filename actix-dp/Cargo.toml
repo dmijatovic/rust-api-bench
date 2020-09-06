@@ -1,0 +1,22 @@
+[package]
+name = "actix-dp"
+version = "0.1.0"
+authors = ["Dusan Mijatovic (PC2016) <d.mijatovic@dv4all.nl>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+actix-web = "3.0.0-beta.3"
+actix-files = "0.3.0-beta.1"
+# json serialization
+serde = "1"
+serde_derive = "1"
+serde_json = "1"
+# logging
+log="0"
+env_logger = "0"
+# postgres related
+deadpool="0"
+deadpool-postgres = "0.5"
+tokio-postgres = { version = "0.5", features = ["with-uuid-0_8"] }
