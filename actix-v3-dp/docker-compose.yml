@@ -1,0 +1,46 @@
+version: "3"
+services:
+  pgdb:
+    container_name: pgdb
+    # use latest official postgres version
+    image: "postgres:12-alpine"
+    env_file:
+      # configure postgres
+      - ../postgres/database.env
+    expose:
+      - "5432"
+    volumes:
+      # persist data even if container shuts down
+      - pgdb:/var/lib/postgresql/data/
+      # run init sql script to create tables
+      - ../postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - net
+
+  actix-v3-dp:
+    container_name: actix-v3-dp
+    build: .
+    image: dv4all/actix-v3-dp-api:0.0.1
+    environment:
+      SERVER.HOST: 0.0.0.0
+      SERVER.PORT: 8080
+      SERVER.WORKERS: 4
+      PG.HOST: pgdb
+      PG.PORT: 5432
+      PG.USER: postgres
+      PG.PASSWORD: changeme
+      PG.DBNAME: todo_db
+      PG.POOL.MAX_SIZE: 30
+    ports:
+      - "8080:8080"
+    networks:
+      - net
+    depends_on:
+      - pgdb
+
+networks:
+  net:
+
+# named volumes can be managed easier using docker-compose
+volumes:
+  pgdb:

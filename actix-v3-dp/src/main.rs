@@ -1,0 +1,55 @@
+// system
+use std::io;
+// third party
+use actix_web::middleware::Logger;
+use actix_web::{App, HttpServer};
+
+// local modules
+mod config;
+mod db;
+mod errors;
+mod handlers;
+mod models;
+
+use dotenv::dotenv;
+use tokio_postgres::NoTls;
+// use crate::handlers::*;
+
+#[actix_web::main]
+async fn main() -> io::Result<()> {
+  // load env variables
+  dotenv().ok();
+  let config = crate::config::Config::from_env().unwrap();
+
+  // create pg connection pool
+  let pool = config.pg.create_pool(NoTls).unwrap();
+
+  //logger
+  std::env::set_var("RUST_LOG", "actix_web=debug");
+  env_logger::init();
+
+  //start server
+  println!(
+    "Starting server on http://{}:{} using {} workers",
+    config.server.host, config.server.port, config.server.workers
+  );
+
+  HttpServer::new(move || {
+    App::new()
+      .wrap(Logger::new("%r - %s [%b bytes %D ms] %{User-Agent}i"))
+      .data(pool.clone())
+      // .service(handlers::home)
+      .service(handlers::create_todo_list)
+      .service(handlers::update_todo_list)
+      .service(handlers::get_todo_lists)
+      .service(handlers::get_list_items)
+      .service(handlers::create_todo_item)
+      .service(handlers::delete_todo_item)
+      // static files with index.html
+      .service(handlers::static_files())
+  })
+  .bind(format!("{}:{}", config.server.host, config.server.port))?
+  .workers(config.server.workers.into())
+  .run()
+  .await
+}

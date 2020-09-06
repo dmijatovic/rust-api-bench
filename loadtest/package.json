@@ -9,6 +9,7 @@
   "scripts": {
     "test-actix-dp": "node autocannon/test-actix-dp.js",
     "test-actix-v2-dp": "node autocannon/test-actix-v2-dp.js",
+    "test-actix-v3-dp": "node autocannon/test-actix-v3-dp.js",
     "test-actix-gql": "node autocannon/test-actix-gql.js",
     "dev": "next",
     "build": "next build",
