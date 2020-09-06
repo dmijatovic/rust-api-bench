@@ -1,0 +1,23 @@
+[package]
+name = "hyper-dp"
+version = "0.0.1"
+authors = ["Dusan Mijatovic <d.mijatovic@dv4all.nl>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+hyper = "0"
+tokio = { version = "0", features = ["full"] }
+# json serialization
+serde = "1.0"
+# logging
+log = "0"
+env_logger = "0"
+# postgres related
+deadpool-postgres = "0.5"
+tokio-pg-mapper = "0.1"
+tokio-pg-mapper-derive = "0.1"
+tokio-postgres = "0.5"
+
+
