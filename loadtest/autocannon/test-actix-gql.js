@@ -3,8 +3,11 @@ const utils = require('./utils')
 const graphql = require("./graphql")
 
 let abort=false
-
-let noId={
+const noId={
+  list:0,
+  item:0
+}
+const created={
   list:0,
   item:0
 }
@@ -18,9 +21,11 @@ function saveResults(err, result){
     ...result,
     IdNotRetuned:{
       ...noId
+    },
+    Created:{
+      ...created
     }
   })
-  console.log("IdNotRetuned: ", (noId.list + noId.item))
 }
 
 const loadTest = autocannon({
@@ -51,6 +56,7 @@ const loadTest = autocannon({
           const resp = JSON.parse(body)
           if (resp['data'] && resp['data']['createTodoList']){
             context['list_id'] = resp['data']['createTodoList']['id']
+            created.list+=1
           }else{
             noId.list+=1
           }
@@ -90,6 +96,7 @@ const loadTest = autocannon({
           // console.log("todo_id", resp['payload']['id'])
           if (resp['data'] && resp['data']['createTodoItem']){
             context['todo_id'] = resp['data']['createTodoItem']['id']
+            created.item+=1
           } else {
             noId.item+=1
           }

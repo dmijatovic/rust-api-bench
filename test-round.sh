@@ -17,7 +17,7 @@ take_a_break(){
 start_api(){
   docker-compose up -d
   # wait
-  take_a_break 25
+  take_a_break 20
 }
 
 stop_api(){
