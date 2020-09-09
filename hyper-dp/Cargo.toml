@@ -11,13 +11,15 @@ hyper = "0"
 tokio = { version = "0", features = ["full"] }
 # json serialization
 serde = "1.0"
+serde_json = "1"
 # logging
 log = "0"
 env_logger = "0"
 # postgres related
-deadpool-postgres = "0.5"
-tokio-pg-mapper = "0.1"
-tokio-pg-mapper-derive = "0.1"
-tokio-postgres = "0.5"
-
+# deadpool-postgres = "0.5"
+# tokio-pg-mapper = "0.1"
+# tokio-pg-mapper-derive = "0.1"
+# tokio-postgres = "0.5"
+# use todo_dp lib
+todo_dp={path="./todo_dp"}
 
