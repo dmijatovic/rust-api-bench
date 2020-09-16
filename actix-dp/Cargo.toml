@@ -1,6 +1,6 @@
 [package]
 name = "actix-dp"
-version = "0.0.3"
+version = "0.0.5"
 authors = ["Dusan Mijatovic (PC2016) <d.mijatovic@dv4all.nl>"]
 edition = "2018"
 

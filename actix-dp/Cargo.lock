@@ -52,7 +52,7 @@ dependencies = [
 
 [[package]]
 name = "actix-dp"
-version = "0.0.3"
+version = "0.0.5"
 dependencies = [
  "actix-files",
  "actix-web",
