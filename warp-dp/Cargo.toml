@@ -7,7 +7,6 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-todo_dp={git = "https://github.com/dmijatovic/rust-api-bench/tree/master/hyper-dp/todo_dp", branch = "dev"}
 warp="0"
 tokio = { version = "0", features = ["full"] }
 # json serialization
@@ -16,3 +15,4 @@ serde_json = "1"
 # logging
 log = "0"
 env_logger = "0"
+todo_dp={git = "https://github.com/dmijatovic/todo_dp_test", branch="master"}
