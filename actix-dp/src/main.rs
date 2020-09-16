@@ -1,11 +1,13 @@
 #[macro_use]
 extern crate log;
 
+extern crate todo_dp;
+
 use actix_web::middleware::Logger;
 use actix_web::{web, App, HttpServer};
 use std::env;
 
-mod db;
+// mod db;
 mod handler;
 
 struct ActixConfig {
@@ -49,7 +51,7 @@ async fn main() -> std::io::Result<()> {
     info!("Starting http server at {:?}", host);
 
     // create db connection pool
-    let pool = db::create_pool().await;
+    let pool = todo_dp::create_pool().await;
     //start http server
     HttpServer::new(move || {
         App::new()

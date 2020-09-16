@@ -60,6 +60,7 @@ dependencies = [
  "env_logger",
  "log",
  "serde",
+ "todo_dp",
  "tokio-pg-mapper",
  "tokio-pg-mapper-derive",
  "tokio-postgres",
@@ -1838,6 +1839,20 @@ name = "tinyvec"
 version = "0.3.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "238ce071d267c5710f9d31451efec16c5ee22de34df17cc05e56cbc92e967117"
+
+[[package]]
+name = "todo_dp"
+version = "0.0.1"
+source = "git+https://github.com/dmijatovic/todo_dp_test#eda30fc5c4843d95274c332d9f556710b86c232d"
+dependencies = [
+ "deadpool-postgres",
+ "env_logger",
+ "log",
+ "serde",
+ "tokio-pg-mapper",
+ "tokio-pg-mapper-derive",
+ "tokio-postgres",
+]
 
 [[package]]
 name = "tokio"

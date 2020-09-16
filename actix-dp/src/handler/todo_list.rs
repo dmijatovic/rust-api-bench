@@ -1,5 +1,9 @@
-use crate::db::todo_list::{NewTodoList, TodoList};
-use crate::db::{todo_list, Pool};
+extern crate todo_dp;
+
+use todo_dp::todo_list::{NewTodoList, TodoList};
+use todo_dp::{todo_list, Pool};
+// use crate::db::todo_list::{NewTodoList, TodoList};
+// use crate::db::{todo_list, Pool};
 use actix_web::{delete, get, post, put, web, HttpResponse};
 
 use super::response;

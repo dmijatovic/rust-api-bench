@@ -1,5 +1,9 @@
-use crate::db::todo_item::{NewTodoItem, TodoItem};
-use crate::db::{todo_item, Pool};
+extern crate todo_dp;
+
+use todo_dp::todo_item::{NewTodoItem, TodoItem};
+use todo_dp::{todo_item, Pool};
+// use crate::db::todo_item::{NewTodoItem, TodoItem};
+// use crate::db::{todo_item, Pool};
 use actix_web::{delete, get, post, put, web, HttpResponse};
 
 use super::response;
