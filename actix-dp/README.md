@@ -1,12 +1,12 @@
 # Actix web with deadpool and tokio-postgres
 
-This project is testbed for actix-web todo app with deadpool and tokio-postgres.
+This project is testbed for actix-web todo app with deadpool and tokio-postgres. It uses actix-web version 3 (most recent version at the time). During development I used beta version but after official release I updated to version 3.
 
 **This version of actix-api is significantly slowe than v2. Further investigation is needed to discover why?**.
 
 ## Remarks
 
-Initial version of this api was quite slow (<50k request on load test). There are two improvements I made based on api version I created earlier which had quite high performance.
+Initial version of this api was quite slow (<50k request on load test). There are two improvements I made which had quite high impact on performance.
 
 - Using actix-web json response instead using body
 

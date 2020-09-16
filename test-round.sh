@@ -17,7 +17,7 @@ take_a_break(){
 start_api(){
   docker-compose up -d
   # wait
-  take_a_break 20
+  take_a_break 10
 }
 
 stop_api(){
@@ -75,5 +75,18 @@ start_api
 loadtest test-actix-v3-dp
 # go back to api folder
 cd ../actix-v3-dp
+# stop api and remove volumes
+stop_api
+
+# ---------------------
+# HYPER and deadpool test
+# start actix api
+cd ../hyper-dp
+# start api with docker compose
+start_api
+# run load test
+loadtest test-hyper-dp
+# go back to api folder
+cd ../hyper-dp
 # stop api and remove volumes
 stop_api

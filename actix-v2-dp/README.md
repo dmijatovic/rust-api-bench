@@ -1,6 +1,6 @@
 # Todo actix api (rust)
 
-This api is build using [actix web framework](https://github.com/actix/actix-web).
+This api is build using [actix web framework](https://github.com/actix/actix-web) version 2.
 
 ## Usage
 
