@@ -1061,6 +1061,7 @@ checksum = "238ce071d267c5710f9d31451efec16c5ee22de34df17cc05e56cbc92e967117"
 [[package]]
 name = "todo_dp"
 version = "0.0.1"
+source = "git+https://github.com/dmijatovic/todo_dp_test#f7aa42bf8e276f8ef5157f394356486faea4430f"
 dependencies = [
  "deadpool-postgres",
  "env_logger",
